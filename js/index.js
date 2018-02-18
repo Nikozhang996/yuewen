@@ -20,6 +20,8 @@ var comonentsOff = {
 var newsData = null,
   copyrightData = null;
 
+/*********************************************************************/
+
 // 切换头部样式
 function switchHeaderStyle() {
   // 添加自定义属性，保存当前scroll值
@@ -67,40 +69,88 @@ function switchNavTabStyle(val) {
 
 // 轮播图展示
 function bannerSwitch() {
-  var bannerSlideArr = $.getElementsByClass('yw-banner-slide');
-  var curIndex = 0;
+  var bannerContent = $.getElementsByClass('yw-banner-content')[0],
+    bannerSlideArr = $.getElementsByClass('yw-banner-slide');
+
+  var curIndex = 0,
+    autoPlayTimer = null;
 
   // 自动切换
   function autoPlay() {
-    var len = bannerSlideArr.length;
-
-    if (curIndex >= len) {
+    var bannerDot = document.getElementById('ywBannerDot'),
+      bannerDotli = bannerDot.getElementsByTagName('li');
+    var sliderLen = bannerSlideArr.length;
+    if (curIndex >= sliderLen) {
       curIndex = 0;
     }
 
-    for (var i = 0; i < len; i++) {
-      $.css(bannerSlideArr[i],{
-        'opacity': 0,
-        // 'display': 'none'
-      })
+    for (var i = 0; i < sliderLen; i++) {
+      $.css(bannerSlideArr[i], {
+        'opacity': 0
+      });
+
+      $.removeClass(bannerDotli[i], 'actived');
     }
 
     animate(bannerSlideArr[curIndex], {
-      'opacity': 1,
-      // 'display': 'block'
-    }, 500);
+      'opacity': 1
+    }, 200);
 
-    console.log(curIndex);
-
+    $.addClass(bannerDotli[curIndex], 'actived');
   }
 
-  var autoPlayTimer = setInterval(function () {
-    curIndex++;
-    autoPlay();
-  }, 2000)
-}
+  // 设置定时器
+  function setPlay(time) {
+    return setInterval(function () {
+      curIndex++;
+      autoPlay();
+    }, time);
+  }
 
-bannerSwitch()
+  // 添加轮播图导航按钮
+  function createBannerNavDOM(id, className) {
+    var div = document.createElement('div'),
+      ul = document.createElement('ul');
+    for (var i = 0; i < bannerSlideArr.length; i++) {
+      var li = document.createElement('li');
+      li.index = i;
+      if (i === 0) {
+        li.className = 'actived';
+      }
+      ul.appendChild(li);
+    }
+
+    div.id = id;
+    div.className = className;
+
+    div.appendChild(ul);
+    bannerContent.appendChild(div);
+  }
+
+  // 导航按钮点击跳转
+  function bannerNavEvent() {
+    var ywBannerDot = document.getElementById('ywBannerDot');
+    ywBannerDot.onclick = function (ev) {
+      var target = ev.target || window.event;
+      curIndex = target.index;
+      autoPlay();
+    }
+  }
+
+  // 进入或离开停止轮播动画
+  bannerContent.onmouseenter = function () {
+    clearInterval(autoPlayTimer)
+  };
+  bannerContent.onmouseleave = function () {
+    autoPlayTimer = setPlay(3000);
+  };
+
+  (function () {
+    autoPlayTimer = setPlay(3000);
+    createBannerNavDOM('ywBannerDot', 'yw-banner-dot');
+    bannerNavEvent();
+  })()
+}
 
 // copyright滚动图数据绑定
 function renderCopyrightData() {
@@ -228,6 +278,31 @@ function renderCopyrightData() {
 
 }
 
+// 移动产品切换
+function switchAppView() {
+  var tapApp = document.getElementById('tapApp'),
+    appTabNav = $.getElementsByClass('yw-app-tab-nav')[0],
+    appTabNavLi = appTabNav.getElementsByTagName('li');
+
+  var tabLine = document.getElementById('tabLine'),
+    tabLineWidth = $.css(tabLine, 'width');
+
+  for (var i = 0; i < appTabNavLi.length; i++) {
+    appTabNavLi[i].index = i;
+  }
+
+  appTabNav.onclick = function (ev) {
+    var target = ev.target || window.event;
+    if (target.tagName.toUpperCase() === 'LI') {
+      animate(tabLine,{
+        left:90 * target.index
+      }, 200);
+
+      console.log();
+    }
+  };
+}
+
 // 新闻加载
 function renderNewsList() {
   if (newsData) {
@@ -317,6 +392,8 @@ function renderNewsList() {
 
 window.onload = function () {
   switchHeaderStyle();
+  bannerSwitch();
+  switchAppView();
   $.ajax({
     type: 'get',
     url: './js/copyright.json',

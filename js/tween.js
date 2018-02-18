@@ -260,7 +260,7 @@ animate(目标元素，元素对象，完成时间，特效选项，回调函数
       for (var key in target) {
         if (target.hasOwnProperty(key)) {
           // console.log(tempEffect)
-          var curPos = tempEffect(time, begin[key], change[key], duration)
+          var curPos = tempEffect(time, begin[key], change[key], duration);
           $.css(element, key, curPos);
         }
       }

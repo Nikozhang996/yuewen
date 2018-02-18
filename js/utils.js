@@ -5,7 +5,7 @@ var $ = (function () {
   function children(element, tagName) {
     // IE6-8下不支持children属性，所以我们要自己实现
     // /MSIE (6 | 7 | 8)/i.test(navigator.userAgent
-    if (flag) {
+    if (!flag) {
       var nodeList = element.childNodes;
       var ary = [];
       for (var i = 0, len = nodeList.length; i < len; i++) {
