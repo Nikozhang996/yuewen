@@ -152,7 +152,7 @@ function bannerSwitch() {
   })()
 }
 
-// copyright全版权运营滚动图数据绑定
+// copyright滚动图数据绑定
 function renderCopyrightData() {
   var ywCpShow_0 = document.getElementById('ywCpShow_0'),
     ywCpShow_1 = document.getElementById('ywCpShow_1'),
@@ -209,76 +209,43 @@ function renderCopyrightData() {
 
   // copyright滚动效果
   function translateX() {
-    var timer1 = null,
-      timer2 = null;
 
-    var flag1 = 0,
-      flag2 = 0;
+    var flag = 0;
+    var flag2 = 0;
 
-    function createTimer(ele, flag, time) {
-      return window.setInterval(function () {
+    var timer = window.setInterval(function () {
+      flag--;
+      ywCpShow_0.style.transform = 'translateX(' + flag + 'px)';
+    }, 80);
+
+    ywCpShow_0.onmouseenter = function () {
+      window.clearInterval(timer)
+    }
+
+    ywCpShow_0.onmouseleave = function () {
+      timer = window.setInterval(function () {
         flag--;
-        ele.style.transform = 'translateX(' + flag + 'px)';
-      }, time);
+        ywCpShow_0.style.transform = 'translateX(' + flag + 'px)';
+      }, 80);
     }
-
-    function clearTimer(ele, timer) {
-      ele.onmouseenter = function (ev) {
-        clearInterval(timer);
-      };
-    }
-
-    function addTimer(timer, ele, flag, time) {
-      ele.onmouseleave = function (ev) {
-        console.log(timer);
-        timer1 = creasteTimer(ele, flag, time);
-      };
-    }
-
-    timer1 = createTimer(ywCpShow_0, flag1, 80);
-    timer2 = createTimer(ywCpShow_1, flag2, 50);
-
-    clearTimer(ywCpShow_0, timer1);
-    clearTimer(ywCpShow_1, timer2);
-
-    // addTimer(timer1, ywCpShow_0, flag1, 80);
-    // addTimer(timer2, ywCpShow_1, flag2, 50);
-
-    ywCpShow_0.onmouseleave = function (ev) {
-      console.log(this.onmouseenter);
-      timer1 = createTimer(this, flag1, 80);
-    };
-
-
-    //
-    // ywCpShow_0.onmouseenter = function () {
-    //   window.clearInterval(timer1)
-    // };
-    //
-    // ywCpShow_0.onmouseleave = function () {
-    //   timer = window.setInterval(function () {
-    //     flag--;
-    //     ywCpShow_0.style.transform = 'translateX(' + flag + 'px)';
-    //   }, 80);
-    // };
 
     /***********************************************************************/
 
-    // var timer2 = window.setInterval(function () {
-    //   flag2--;
-    //   ywCpShow_1.style.transform = 'translateX(' + flag2 + 'px)';
-    // }, 50);
-    //
-    // ywCpShow_1.onmouseenter = function () {
-    //   window.clearInterval(timer2)
-    // }
-    //
-    // ywCpShow_1.onmouseleave = function () {
-    //   timer2 = window.setInterval(function () {
-    //     flag2--;
-    //     ywCpShow_1.style.transform = 'translateX(' + flag2 + 'px)';
-    //   }, 50);
-    // }
+    var timer1 = window.setInterval(function () {
+      flag2--;
+      ywCpShow_1.style.transform = 'translateX(' + flag2 + 'px)';
+    }, 50);
+
+    ywCpShow_1.onmouseenter = function () {
+      window.clearInterval(timer1)
+    }
+
+    ywCpShow_1.onmouseleave = function () {
+      timer1 = window.setInterval(function () {
+        flag2--;
+        ywCpShow_1.style.transform = 'translateX(' + flag2 + 'px)';
+      }, 50);
+    }
 
   };
 
@@ -327,8 +294,8 @@ function switchAppView() {
   appTabNav.onclick = function (ev) {
     var target = ev.target || window.event;
     if (target.tagName.toUpperCase() === 'LI') {
-      animate(tabLine, {
-        left: 90 * target.index
+      animate(tabLine,{
+        left:90 * target.index
       }, 200);
 
       console.log();
