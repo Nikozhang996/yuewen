@@ -222,63 +222,24 @@ function renderCopyrightData() {
       }, time);
     }
 
-    function clearTimer(ele, timer) {
-      ele.onmouseenter = function (ev) {
-        clearInterval(timer);
-      };
-    }
-
-    function addTimer(timer, ele, flag, time) {
-      ele.onmouseleave = function (ev) {
-        console.log(timer);
-        timer1 = creasteTimer(ele, flag, time);
-      };
-    }
-
     timer1 = createTimer(ywCpShow_0, flag1, 80);
     timer2 = createTimer(ywCpShow_1, flag2, 50);
 
-    clearTimer(ywCpShow_0, timer1);
-    clearTimer(ywCpShow_1, timer2);
+    ywCpShow_0.onmouseenter = function (ev) {
+      clearInterval(timer1);
+    };
 
-    // addTimer(timer1, ywCpShow_0, flag1, 80);
-    // addTimer(timer2, ywCpShow_1, flag2, 50);
+    ywCpShow_1.onmouseenter = function (ev) {
+      clearInterval(timer2);
+    };
 
     ywCpShow_0.onmouseleave = function (ev) {
-      console.log(this.onmouseenter);
       timer1 = createTimer(this, flag1, 80);
     };
 
-
-    //
-    // ywCpShow_0.onmouseenter = function () {
-    //   window.clearInterval(timer1)
-    // };
-    //
-    // ywCpShow_0.onmouseleave = function () {
-    //   timer = window.setInterval(function () {
-    //     flag--;
-    //     ywCpShow_0.style.transform = 'translateX(' + flag + 'px)';
-    //   }, 80);
-    // };
-
-    /***********************************************************************/
-
-    // var timer2 = window.setInterval(function () {
-    //   flag2--;
-    //   ywCpShow_1.style.transform = 'translateX(' + flag2 + 'px)';
-    // }, 50);
-    //
-    // ywCpShow_1.onmouseenter = function () {
-    //   window.clearInterval(timer2)
-    // }
-    //
-    // ywCpShow_1.onmouseleave = function () {
-    //   timer2 = window.setInterval(function () {
-    //     flag2--;
-    //     ywCpShow_1.style.transform = 'translateX(' + flag2 + 'px)';
-    //   }, 50);
-    // }
+    ywCpShow_1.onmouseleave = function (ev) {
+      timer2 = createTimer(this, flag2, 50);
+    };
 
   };
 
