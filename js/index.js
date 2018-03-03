@@ -277,25 +277,39 @@ function renderCopyrightData () {
 function switchAppView () {
   var tapApp = document.getElementById('tapApp'),
     appTabNav = tapApp.firstElementChild,
-    appTabNavLi = appTabNav.children;
+    appTabNavLi = $.children(appTabNav);
 
-  var tabLine = document.getElementById('tabLine'),
-    tabLineWidth = $.css(tabLine, 'width');
+  var tabLine = document.getElementById('tabLine');
 
-  console.log(appTabNav,appTabNavLi);
+  var ywAppMainLi = $.getElementsByClass('yw-app-tab-main-li');
 
+  function switchNavLi (index) {
+    var targetWidth = Math.ceil($.css(this, 'width'));
+    $.css(tabLine, {width: targetWidth});
+
+    animate(tabLine, {
+      left: this.offsetLeft
+    }, 200);
+
+  }
+  function switchMainLi (index) {
+    for (var i=0; i<this.length; i++) {
+      $.css(this[i], {display: 'none'});
+    }
+    $.css(this[index], {display: 'block'});
+  }
+
+  // 给每个li元素添加索引index
   for (var i = 0; i < appTabNavLi.length; i++) {
     appTabNavLi[i].index = i;
   }
 
+
   appTabNav.onclick = function (ev) {
     var target = ev.target || window.event;
     if (target.tagName.toUpperCase() === 'LI') {
-      animate(tabLine, {
-        left: 100 * target.index
-      }, 200);
-
-      console.log(target);
+      switchNavLi.call(target);
+      switchMainLi.call(ywAppMainLi, target.index);
     }
   };
 }
@@ -358,6 +372,7 @@ function renderNewsList () {
       return newsFragment;
     }
 
+    // 插入DOM
     function insertNewsHTML (element, inx) {
       var data = createNewsListData(newsData, inx)
       element.appendChild(data);
