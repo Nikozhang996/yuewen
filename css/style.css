@@ -440,7 +440,7 @@
     top: 15px;
     left: 50px;
     background: url("../img/icons-brand.png") no-repeat;
-    background-position: 0 00px;
+    background-position: 0 0;
 
     /*border:1px solid reqd;*/
 }
@@ -470,6 +470,13 @@
     height: 58px;
     border: 1px solid #ddd;
     position: relative;
+    /*box-sizing: border-box;*/
+}
+.brand-li-btn:hover {
+    border: 1px solid #fff;
+    box-shadow: 0 0 4px #ffffff;
+    /*box-sizing: border-box;*/
+
 }
 
 .yw-brand-describe-logo {

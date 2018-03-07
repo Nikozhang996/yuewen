@@ -292,8 +292,9 @@ function switchAppView () {
     }, 200);
 
   }
+
   function switchMainLi (index) {
-    for (var i=0; i<this.length; i++) {
+    for (var i = 0; i < this.length; i++) {
       $.css(this[i], {display: 'none'});
     }
     $.css(this[index], {display: 'block'});
@@ -310,6 +311,24 @@ function switchAppView () {
     if (target.tagName.toUpperCase() === 'LI') {
       switchNavLi.call(target);
       switchMainLi.call(ywAppMainLi, target.index);
+    }
+  };
+}
+
+// 旗下品牌
+function renderBrand () {
+  var brandUlListBtn = document.getElementById('brandUlListBtn');
+  var curTitle = '';
+  var timer = null;
+
+  brandUlListBtn.onmouseover = function (ev) {
+    var target = ev.target || window.target;
+    if (target.tagName.toLocaleUpperCase() === 'A' && curTitle !== target.title) {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        curTitle = target.title;
+        console.log(target.title);
+      }, 500);
     }
   };
 }
@@ -406,6 +425,7 @@ window.onload = function () {
   switchHeaderStyle();
   bannerSwitch();
   switchAppView();
+  renderBrand();
   $.ajax({
     type: 'get',
     url: './js/copyright.json',
