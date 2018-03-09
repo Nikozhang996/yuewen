@@ -317,9 +317,18 @@ function switchAppView () {
 
 // 旗下品牌
 function renderBrand () {
-  var brandUlListBtn = document.getElementById('brandUlListBtn');
-  var curTitle = '';
+  var ywBrandDescribe = document.getElementById('ywBrandDescribe'),
+    ywBrandDescribeLogo = ywBrandDescribe.firstElementChild,
+    ywBrandDescribeP = ywBrandDescribe.lastElementChild,
+    brandUlListBtn = document.getElementById('brandUlListBtn');
+
   var timer = null;
+
+  var prevClassName = '';
+
+  var curTitle = '',
+    curClassName = '',
+    curDescribe = null;
 
   brandUlListBtn.onmouseover = function (ev) {
     var target = ev.target || window.target;
@@ -327,8 +336,18 @@ function renderBrand () {
       clearTimeout(timer);
       timer = setTimeout(function () {
         curTitle = target.title;
-        console.log(target.title);
-      }, 500);
+        curClassName = target.firstElementChild.className.slice(14);
+        curDescribe = target.lastElementChild;
+       prevClassName = ywBrandDescribeLogo.className.slice(23);
+
+        ywBrandDescribeLogo.classList.remove(prevClassName);
+        ywBrandDescribeLogo.classList.add(curClassName);
+
+        console.log(target.title,ywBrandDescribeLogo.className);
+
+        ywBrandDescribeP.innerHTML = curDescribe.innerHTML;
+
+      }, 300);
     }
   };
 }

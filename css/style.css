@@ -427,9 +427,9 @@
     color: #fff;
 }
 
-.yw-brand-describe-li {
+.yw-brand-describe {
     position: relative;
-    display: none;
+    height: 120px;
 }
 
 .yw-brand-describe-logo {
@@ -450,6 +450,10 @@
     font-weight: 200;
     margin-left: 320px;
     line-height: 26px;
+}
+
+.brand-li-btn>.yw-brand-describe-p{
+    display: none;
 }
 
 .yw-brand-select {
