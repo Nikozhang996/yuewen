@@ -141,9 +141,8 @@
 
 .yw-banner-desc {
     color: #fff;
-    position: relative;
+    position: absolute;
     top: 135px;
-    /*top: 0;*/
     left: 25%;
 }
 
