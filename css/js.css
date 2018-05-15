@@ -33,6 +33,6 @@
 .yw-header-fixed .active:hover {
     color: #ffffff;
     background-color: #03a0e5;
-    box-shadow: none;
+    box-shadow: 0 1px #019ee4, 0 2px #019ee4, 0 3px #019ee4;
 }
 /**/
