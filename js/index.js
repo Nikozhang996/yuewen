@@ -23,7 +23,7 @@ var newsData = null,
 /*********************************************************************/
 
 // 切换头部样式
-function switchHeaderStyle () {
+function switchHeaderStyle() {
   // 添加自定义属性，保存当前scroll值
   var curScrollTop = 0;
 
@@ -41,11 +41,11 @@ function switchHeaderStyle () {
 }
 
 // 添加头部导航栏nav-tab样式
-function switchNavTabStyle (val) {
+function switchNavTabStyle(val) {
   var navTabs = $.getElementsByClass('yw-nav-a');
 
   // 切换nav-item
-  function switchClass (context, element, className) {
+  function switchClass(context, element, className) {
     // 删除作用域内所有的class
     for (var i = 0; i < context.length; i++) {
       $.removeClass(context[i], className);
@@ -68,7 +68,7 @@ function switchNavTabStyle (val) {
 }
 
 // 轮播图展示
-function bannerSwitch () {
+function bannerSwitch() {
   var bannerContent = $.getElementsByClass('yw-banner-content')[0],
     bannerSlideArr = $.getElementsByClass('yw-banner-slide');
 
@@ -76,7 +76,7 @@ function bannerSwitch () {
     autoPlayTimer = null;
 
   // 自动切换
-  function autoPlay () {
+  function autoPlay() {
     var bannerDot = document.getElementById('ywBannerDot'),
       bannerDotli = bannerDot.getElementsByTagName('li');
     var sliderLen = bannerSlideArr.length;
@@ -100,7 +100,7 @@ function bannerSwitch () {
   }
 
   // 设置定时器
-  function setPlay (time) {
+  function setPlay(time) {
     return setInterval(function () {
       curIndex++;
       autoPlay();
@@ -108,7 +108,7 @@ function bannerSwitch () {
   }
 
   // 添加轮播图导航按钮
-  function createBannerNavDOM (id, className) {
+  function createBannerNavDOM(id, className) {
     var div = document.createElement('div'),
       ul = document.createElement('ul');
     for (var i = 0; i < bannerSlideArr.length; i++) {
@@ -128,7 +128,7 @@ function bannerSwitch () {
   }
 
   // 导航按钮点击跳转
-  function bannerNavEvent () {
+  function bannerNavEvent() {
     var ywBannerDot = document.getElementById('ywBannerDot');
     ywBannerDot.onclick = function (ev) {
       var target = ev.target || window.event;
@@ -153,7 +153,7 @@ function bannerSwitch () {
 }
 
 // copyright全版权运营滚动图数据绑定
-function renderCopyrightData () {
+function renderCopyrightData() {
   var ywCpShow_0 = document.getElementById('ywCpShow_0'),
     ywCpShow_1 = document.getElementById('ywCpShow_1'),
     copyrightImgList = ywCpShow_0.getElementsByTagName('img');
@@ -161,7 +161,7 @@ function renderCopyrightData () {
   var fragment = document.createDocumentFragment();
 
   // 创建HTML DOM结构
-  function createCopyrightDOM () {
+  function createCopyrightDOM() {
     if (copyrightData) {
       for (var index = 0; index < copyrightData.length; index++) {
         // 创建各个元素标签
@@ -201,28 +201,28 @@ function renderCopyrightData () {
   }
 
   // 插入HTML
-  function insertCopyrightHTML () {
+  function insertCopyrightHTML() {
     var clone = fragment.cloneNode(true);
     ywCpShow_0.appendChild(fragment);
     ywCpShow_1.appendChild(clone);
   }
 
   // copyright滚动效果
-  function translateX () {
-    function createTimer (ele, flag, time) {
+  function translateX() {
+    function createTimer(ele, flag, time) {
       return window.setInterval(function () {
         ele.flagX--;
         ele.style.transform = 'translateX(' + ele.flagX + 'px)';
       }, time);
     }
 
-    function bindClearTimer (ele) {
+    function bindClearTimer(ele) {
       ele.onmouseenter = function (ev) {
         clearInterval(this.timer);
       };
     }
 
-    function bindAddTimer (ele, time) {
+    function bindAddTimer(ele, time) {
       ele.onmouseleave = function (ev) {
         this.timer = createTimer(this, this.flagX, time);
       };
@@ -245,8 +245,8 @@ function renderCopyrightData () {
   };
 
   // 图片赖加载
-  function lazyLoad () {
-    function loop (j) {
+  function lazyLoad() {
+    function loop(j) {
       var currentImg = copyrightImgList[j];
       var customImg = new Image;
       customImg.src = currentImg.mySrc;
@@ -274,7 +274,7 @@ function renderCopyrightData () {
 }
 
 // 移动产品切换
-function switchAppView () {
+function switchAppView() {
   var tapApp = document.getElementById('tapApp'),
     appTabNav = tapApp.firstElementChild,
     appTabNavLi = $.children(appTabNav);
@@ -283,7 +283,7 @@ function switchAppView () {
 
   var ywAppMainLi = $.getElementsByClass('yw-app-tab-main-li');
 
-  function switchNavLi (index) {
+  function switchNavLi(index) {
     var targetWidth = Math.ceil($.css(this, 'width'));
     $.css(tabLine, {width: targetWidth});
 
@@ -293,7 +293,7 @@ function switchAppView () {
 
   }
 
-  function switchMainLi (index) {
+  function switchMainLi(index) {
     for (var i = 0; i < this.length; i++) {
       $.css(this[i], {display: 'none'});
     }
@@ -316,7 +316,7 @@ function switchAppView () {
 }
 
 // 旗下品牌
-function renderBrand () {
+function renderBrand() {
   var ywBrandDescribe = document.getElementById('ywBrandDescribe'),
     ywBrandDescribeLogo = ywBrandDescribe.firstElementChild,
     ywBrandDescribeP = ywBrandDescribe.lastElementChild,
@@ -330,35 +330,42 @@ function renderBrand () {
     curClassName = '',
     curDescribe = null;
 
+  function switchBrandShow(target){
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      curTitle = target.title;
+      curClassName = target.firstElementChild.className.slice(14);
+      curDescribe = target.lastElementChild;
+      prevClassName = ywBrandDescribeLogo.className.slice(23);
+
+      ywBrandDescribeLogo.classList.remove(prevClassName);
+      ywBrandDescribeLogo.classList.add(curClassName);
+
+      console.log(target.firstElementChild.className,ywBrandDescribeLogo.className);
+
+      ywBrandDescribeP.innerHTML = curDescribe.innerHTML;
+
+    }, 300);
+  }
+
+  /*
+  * 说明：在ul元素上使用事件代理，用冒泡触发切换
+  * */
   brandUlListBtn.onmouseover = function (ev) {
     var target = ev.target || window.target;
     if (target.tagName.toLocaleUpperCase() === 'A' && curTitle !== target.title) {
-      clearTimeout(timer);
-      timer = setTimeout(function () {
-        curTitle = target.title;
-        curClassName = target.firstElementChild.className.slice(14);
-        curDescribe = target.lastElementChild;
-       prevClassName = ywBrandDescribeLogo.className.slice(23);
-
-        ywBrandDescribeLogo.classList.remove(prevClassName);
-        ywBrandDescribeLogo.classList.add(curClassName);
-
-        console.log(target.title,ywBrandDescribeLogo.className);
-
-        ywBrandDescribeP.innerHTML = curDescribe.innerHTML;
-
-      }, 300);
+      switchBrandShow(target);
     }
   };
 }
 
 // 新闻加载
-function renderNewsList () {
+function renderNewsList() {
   if (newsData) {
     var newsUl = document.getElementById('yw_news_ul');
     var newsDialogUl = document.getElementById('news_dialog_ul');
 
-    function createNewsListData (newsData, inx) {
+    function createNewsListData(newsData, inx) {
       var newsFragment = document.createDocumentFragment();
       var data = newsData;
       var index = inx || newsData.length;
@@ -411,13 +418,13 @@ function renderNewsList () {
     }
 
     // 插入DOM
-    function insertNewsHTML (element, inx) {
+    function insertNewsHTML(element, inx) {
       var data = createNewsListData(newsData, inx)
       element.appendChild(data);
     }
 
     // 新闻查看更多
-    function showNewsDialog () {
+    function showNewsDialog() {
       var newsDialog = document.getElementById('yw_news_dialog'),
         newsDialogCloseBtn = document.getElementById('news_dialog_close_btn'),
         newsDialogMoreBtn = document.getElementById('news_dialog_more_btn');
@@ -445,6 +452,8 @@ window.onload = function () {
   bannerSwitch();
   switchAppView();
   renderBrand();
+
+  // 获取版权信息
   $.ajax({
     type: 'get',
     url: './js/copyright.json',
@@ -454,6 +463,8 @@ window.onload = function () {
       renderCopyrightData();
     }
   });
+
+  // 获取新闻信息
   $.ajax({
     type: 'get',
     url: './js/FeHelper-20180124152420.json',
